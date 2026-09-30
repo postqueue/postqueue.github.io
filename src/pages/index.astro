@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContentPlanner from '../components/ContentPlanner';
+import SEOContentSection from '../components/SEOContentSection.astro';
+import { ui } from '../i18n/ui';
+
+const currentLang = 'en';
+---
+
+<BaseLayout
+  lang={currentLang}
+  title={ui.en['site.title']}
+  description={ui.en['site.description']}
+>
+  <ContentPlanner client:load currentLang={currentLang} />
+  <SEOContentSection lang={currentLang} />
+</BaseLayout>

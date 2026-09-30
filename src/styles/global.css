@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-midnight: #010736;
+  --color-brand-navy: #0D1C42;
+  --color-brand-royal: #22396F;
+  --color-brand-cream: #FCF1D0;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --brand-midnight: #010736;
+    --brand-navy: #0D1C42;
+    --brand-royal: #22396F;
+    --brand-cream: #FCF1D0;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-[#fcfaf5] text-[#010736] transition-colors duration-200 antialiased selection:bg-[#22396F]/20 selection:text-[#010736];
+  }
+
+  html.dark body {
+    @apply bg-[#010736] text-[#FCF1D0] selection:bg-[#FCF1D0]/30 selection:text-[#FCF1D0];
+  }
+}
+
+/* Custom scrollbars with brand tones */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(34, 57, 111, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 57, 111, 0.6);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(252, 241, 208, 0.2);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(252, 241, 208, 0.4);
+}

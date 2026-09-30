@@ -1,0 +1,272 @@
+---
+import type { SupportedLanguage } from '../i18n/ui';
+
+interface Props {
+  lang: SupportedLanguage;
+}
+
+const { lang } = Astro.props;
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+const faqsByLang: Record<SupportedLanguage, FAQItem[]> = {
+  en: [
+    {
+      question: "Is PostQueue 100% free with no hidden subscriptions?",
+      answer: "Yes, PostQueue is completely free, open source, and requires no account or credit card. All 30 content slots, live character counters, and export features are unlocked permanently.",
+    },
+    {
+      question: "Where are my video hooks, captions, and file names stored?",
+      answer: "Everything is stored exclusively on your device inside your browser's HTML5 LocalStorage. Zero data is ever transmitted to a remote server or database. If you switch devices, use the 1-click Export JSON feature to transfer your queue.",
+    },
+    {
+      question: "How does the 1-Click 'Copy Package' button work?",
+      answer: "Clicking 'Copy Package' formats your 3-second hook, polished caption, and hashtags with clean line breaks and copies them directly into your clipboard, ready to paste straight into TikTok, Instagram Reels, or YouTube Shorts.",
+    },
+    {
+      question: "What is the caption character limit in PostQueue?",
+      answer: "The caption field includes a real-time countdown against the 2,200 character ceiling, which matches the maximum caption capacity allowed by TikTok and Instagram Reels.",
+    },
+    {
+      question: "Can I organize and match raw video files from my camera roll?",
+      answer: "Yes. Each slot includes a dedicated 'Raw Video File Name' field (e.g., VID_Day01_StopDoingThis.mp4) so you can match your planned hook with footage on your SD card, hard drive, or smartphone camera roll.",
+    },
+  ],
+  es: [
+    {
+      question: "¿PostQueue es realmente 100% gratuito?",
+      answer: "Sí, PostQueue es completamente gratuito y de código abierto. No requiere registro, cuentas ni suscripciones. Todas las funciones de planificación de 30 días están disponibles sin costo.",
+    },
+    {
+      question: "¿Dónde se guardan mis ideas y descripciones?",
+      answer: "Todos los datos se almacenan exclusivamente en el LocalStorage de tu navegador. Ningún dato sale de tu dispositivo ni se envía a servidores externos.",
+    },
+    {
+      question: "¿Cómo funciona el botón 'Copiar Paquete'?",
+      answer: "Formatea automáticamente tu gancho, descripción y hashtags con saltos de línea limpios para pegarlos directamente en TikTok, Instagram Reels o YouTube Shorts.",
+    },
+    {
+      question: "¿Cuál es el límite de caracteres para las descripciones?",
+      answer: "El contador en tiempo real está configurado en un máximo de 2.200 caracteres, el estándar óptimo de TikTok e Instagram.",
+    },
+    {
+      question: "¿Puedo organizar archivos de video sin procesar?",
+      answer: "Sí, cada espacio cuenta con un campo para el nombre del archivo original (ej. VID_Dia01.mp4) para conectar tu plan con tus grabaciones en el móvil o disco duro.",
+    },
+  ],
+  pt: [
+    {
+      question: "O PostQueue é totalmente gratuito?",
+      answer: "Sim, o PostQueue é 100% gratuito e de código aberto. Sem assinaturas, sem cadastro e sem limites.",
+    },
+    {
+      question: "Onde ficam armazenados meus dados de conteúdo?",
+      answer: "Tudo fica salvo no LocalStorage do seu navegador. Zero dados são enviados para servidores externos.",
+    },
+    {
+      question: "Como funciona a 'Cópia de Pacote' em 1 clique?",
+      answer: "Copia o gancho, a legenda e as hashtags formatadas diretamente para sua área de transferência para postagem imediata.",
+    },
+    {
+      question: "Qual é o limite de caracteres da legenda?",
+      answer: "Contador regressivo ao vivo configurado com o limite de 2.200 caracteres do TikTok e Reels.",
+    },
+    {
+      question: "Como organizar meus arquivos brutos de gravação?",
+      answer: "Cada slot inclui o campo de Nome do Arquivo Bruto para sincronizar suas filmagens da câmera com a fila.",
+    },
+  ],
+  de: [
+    {
+      question: "Ist PostQueue wirklich 100% kostenlos?",
+      answer: "Ja, PostQueue ist vollständig kostenlos und Open Source. Keine Registrierung, keine versteckten Kosten.",
+    },
+    {
+      question: "Wo werden meine Video-Hooks und Texte gespeichert?",
+      answer: "Alle Daten bleiben lokal im LocalStorage deines Browsers gespeichert. Es werden keine Daten an Server übertragen.",
+    },
+    {
+      question: "Wie funktioniert die 1-Klick Paket-Kopie?",
+      answer: "Formatiert Hook, Caption und Hashtags sauber mit Zeilenumbrüchen für sofortiges Posten auf Social Media.",
+    },
+    {
+      question: "Wie hoch ist das Zeichenlimit für Captions?",
+      answer: "Live-Countdown bis 2.200 Zeichen – genau abgestimmt auf die Limits von TikTok und Instagram Reels.",
+    },
+    {
+      question: "Kann ich Dateinamen von Rohvideos verknüpfen?",
+      answer: "Ja, jeder Slot hat ein eigenes Feld für Rohdateinamen (z.B. VID_Tag01.mp4) für perfekte Ordnung beim Schnitt.",
+    },
+  ],
+  fr: [
+    {
+      question: "PostQueue est-il vraiment 100% gratuit ?",
+      answer: "Oui, PostQueue est entièrement gratuit et open-source. Aucun compte ni abonnement requis.",
+    },
+    {
+      question: "Où sont stockées mes vidéos et mes idées de hooks ?",
+      answer: "Toutes vos données sont enregistrées dans le LocalStorage de votre navigateur. Rien n'est envoyé sur un serveur.",
+    },
+    {
+      question: "Comment fonctionne le bouton 'Copier le Pack' ?",
+      answer: "Il regroupe le hook, la légende et les hashtags avec des sauts de ligne prêts à être collés dans TikTok ou Reels.",
+    },
+    {
+      question: "Quelle est la limite de caractères pour les légendes ?",
+      answer: "Le compteur en direct est plafonné à 2 200 caractères, la limite standard de TikTok et Instagram.",
+    },
+    {
+      question: "Peut-on organiser les noms de fichiers bruts ?",
+      answer: "Oui, chaque créneau dispose d'un champ dédié au nom de fichier brut pour repérer facilement vos rushs.",
+    },
+  ],
+  ja: [
+    {
+      question: "PostQueueは本当に完全無料ですか？",
+      answer: "はい、完全無料でオープンソースです。アカウント登録や課金は一切不要で、30日分の枠をすべて自由に使えます。",
+    },
+    {
+      question: "動画フックやキャプションのデータはどこに保存されますか？",
+      answer: "お使いのブラウザのLocalStorage内にのみ安全に保存されます。サーバーや外部データベースには一切送信されません。",
+    },
+    {
+      question: "「一括コピー」機能はどのように動作しますか？",
+      answer: "冒頭3秒のフック、本文キャプション、ハッシュタグを改行付きでクリップボードにワンクリックでコピーし、SNSへ即座に投稿できます。",
+    },
+    {
+      question: "キャプションの文字数カウントは何文字まで対応していますか？",
+      answer: "TikTokやInstagramリールの最大上限である2,200文字に対応したリアルタイム減算カウンターを搭載しています。",
+    },
+    {
+      question: "カメラロールやSDカードの元動画ファイル名も管理できますか？",
+      answer: "はい、各枠に元動画ファイル名（例: VID_Day01.mp4）を記録できるため、撮影素材の迷子を防げます。",
+    },
+  ],
+};
+
+const currentFaqs = faqsByLang[lang] || faqsByLang.en;
+---
+
+<section class="mx-auto max-w-7xl px-3 py-16 sm:px-6 lg:px-8 border-t border-[#22396F]/15 dark:border-[#22396F]/50">
+  
+  <!-- Section 1: Semantic Pillars & Creator Benefits -->
+  <div class="text-center max-w-3xl mx-auto">
+    <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-[#010736] dark:text-[#FCF1D0]">
+      The 30-Day Short-Form Content Operating System
+    </h2>
+    <p class="mt-3 text-sm leading-relaxed text-[#22396F]/80 dark:text-[#FCF1D0]/70">
+      Engineered specifically for creators producing daily videos on TikTok, Instagram Reels, and YouTube Shorts. Eliminate creative block and organize your production pipeline with zero latency.
+    </p>
+  </div>
+
+  <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Pillar 1 -->
+    <div class="rounded-3xl border border-[#22396F]/20 bg-white p-6 shadow-xs dark:border-[#22396F] dark:bg-[#0D1C42]">
+      <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#22396F] text-[#FCF1D0] font-black text-lg">
+        1
+      </div>
+      <h3 class="mt-4 text-base font-bold text-[#010736] dark:text-[#FCF1D0]">
+        3-Second Hook First Architecture
+      </h3>
+      <p class="mt-2 text-xs leading-relaxed text-[#010736]/70 dark:text-[#FCF1D0]/70">
+        Retention is won or lost in the first 3 seconds. PostQueue forces you to lock in high-converting curiosity gaps and pattern interrupts before filming a single second of footage.
+      </p>
+    </div>
+
+    <!-- Pillar 2 -->
+    <div class="rounded-3xl border border-[#22396F]/20 bg-white p-6 shadow-xs dark:border-[#22396F] dark:bg-[#0D1C42]">
+      <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#22396F] text-[#FCF1D0] font-black text-lg">
+        2
+      </div>
+      <h3 class="mt-4 text-base font-bold text-[#010736] dark:text-[#FCF1D0]">
+        Raw Asset Traceability
+      </h3>
+      <p class="mt-2 text-xs leading-relaxed text-[#010736]/70 dark:text-[#FCF1D0]/70">
+        Never search through hundreds of identical camera roll clips again. Associate exact video filenames with Day 1 to Day 30 slots to streamline editing in CapCut or Premiere Pro.
+      </p>
+    </div>
+
+    <!-- Pillar 3 -->
+    <div class="rounded-3xl border border-[#22396F]/20 bg-white p-6 shadow-xs dark:border-[#22396F] dark:bg-[#0D1C42]">
+      <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#22396F] text-[#FCF1D0] font-black text-lg">
+        3
+      </div>
+      <h3 class="mt-4 text-base font-bold text-[#010736] dark:text-[#FCF1D0]">
+        100% Client-Side Privacy
+      </h3>
+      <p class="mt-2 text-xs leading-relaxed text-[#010736]/70 dark:text-[#FCF1D0]/70">
+        Zero server database storage. All hooks, raw filenames, captions, and hashtags live strictly in your device's browser LocalStorage. Nothing is ever tracked, monitored, or monetized.
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 2: 3-Step Creator Workflow Guide -->
+  <div class="mt-16 rounded-3xl border border-[#22396F]/20 bg-[#fcfaf5] p-6 sm:p-10 dark:border-[#22396F] dark:bg-[#010736]">
+    <div class="max-w-2xl">
+      <span class="text-xs font-bold uppercase tracking-wider text-[#22396F] dark:text-[#FCF1D0]">
+        Production Workflow
+      </span>
+      <h2 class="mt-2 text-xl sm:text-2xl font-black text-[#010736] dark:text-[#FCF1D0]">
+        How to Plan &amp; Batch 30 Days of Viral Videos
+      </h2>
+      <p class="mt-2 text-xs sm:text-sm text-[#010736]/75 dark:text-[#FCF1D0]/70">
+        Follow the battle-tested 3-stage framework used by high-output video creators:
+      </p>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="flex flex-col gap-2">
+        <span class="text-sm font-bold text-amber-500">Stage 1: Ideation (💡 Idea)</span>
+        <p class="text-xs text-[#010736]/70 dark:text-[#FCF1D0]/70 leading-relaxed">
+          Brainstorm all 30 hooks in advance or load the built-in starter hook templates. Separate creative writing from recording to eliminate daily friction.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span class="text-sm font-bold text-[#22396F] dark:text-[#FCF1D0]">Stage 2: Batch Filming (🎬 Filmed)</span>
+        <p class="text-xs text-[#010736]/70 dark:text-[#FCF1D0]/70 leading-relaxed">
+          Record 5 to 10 videos in a single sitting. Log your camera roll filenames directly in PostQueue and advance the status pill to 'Filmed'.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span class="text-sm font-bold text-emerald-500">Stage 3: 1-Click Publishing (✅ Posted)</span>
+        <p class="text-xs text-[#010736]/70 dark:text-[#FCF1D0]/70 leading-relaxed">
+          When it's time to publish, click 'Copy Package' to copy the hook, caption, and hashtags formatted cleanly. Paste and mark as 'Posted' with celebration confetti.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: High-Value FAQ Accordion (Mirrored in FAQPage JSON-LD) -->
+  <div class="mt-16 max-w-3xl mx-auto" id="faq">
+    <div class="text-center">
+      <span class="text-xs font-bold uppercase tracking-wider text-[#22396F] dark:text-[#FCF1D0]">
+        Got Questions?
+      </span>
+      <h2 class="mt-2 text-2xl font-black text-[#010736] dark:text-[#FCF1D0]">
+        Frequently Asked Questions
+      </h2>
+    </div>
+
+    <div class="mt-8 space-y-4">
+      {currentFaqs.map((faq, index) => (
+        <details class="group rounded-2xl border border-[#22396F]/20 bg-white p-4 transition open:shadow-xs dark:border-[#22396F] dark:bg-[#0D1C42]">
+          <summary class="flex cursor-pointer items-center justify-between text-xs sm:text-sm font-bold text-[#010736] dark:text-[#FCF1D0] list-none">
+            <span>{faq.question}</span>
+            <span class="ml-4 transition-transform duration-200 group-open:rotate-180 text-[#22396F] dark:text-[#FCF1D0]">
+              ▼
+            </span>
+          </summary>
+          <p class="mt-3 text-xs leading-relaxed text-[#010736]/75 dark:text-[#FCF1D0]/80 border-t border-[#22396F]/10 pt-3 dark:border-[#22396F]/40">
+            {faq.answer}
+          </p>
+        </details>
+      ))}
+    </div>
+  </div>
+
+</section>

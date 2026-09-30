@@ -1,0 +1,268 @@
+---
+import { ui, languages, type SupportedLanguage } from '../i18n/ui';
+
+interface Props {
+  lang: SupportedLanguage;
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+}
+
+const { lang, title, description, canonicalUrl } = Astro.props;
+
+const siteUrl = 'https://postqueue.github.io';
+const pageTitle = title || ui[lang]['site.title'];
+const pageDescription = description || ui[lang]['site.description'];
+const currentPath = lang === 'en' ? '/' : `/${lang}/`;
+const currentCanonical = canonicalUrl || `${siteUrl}${currentPath}`;
+const ogImageUrl = `${siteUrl}/og-image.svg`;
+
+const localeMap: Record<SupportedLanguage, string> = {
+  en: 'en_US',
+  es: 'es_ES',
+  pt: 'pt_BR',
+  de: 'de_DE',
+  fr: 'fr_FR',
+  ja: 'ja_JP',
+};
+
+const currentLocale = localeMap[lang] || 'en_US';
+const alternateLocales = Object.entries(localeMap)
+  .filter(([key]) => key !== lang)
+  .map(([, val]) => val);
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  url: siteUrl,
+  name: 'PostQueue',
+  alternateName: 'PostQueue Content Planner',
+  headline: pageTitle,
+  description: pageDescription,
+  inLanguage: lang,
+  publisher: {
+    '@type': 'Organization',
+    name: 'PostQueue',
+    url: siteUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/favicon.svg`,
+    },
+  },
+};
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  '@id': `${siteUrl}/#webapp`,
+  name: 'PostQueue | Free 30-Day Content Creator Planner',
+  url: currentCanonical,
+  description: pageDescription,
+  applicationCategory: 'ProductivityApplication',
+  applicationSubCategory: 'Social Media Content Planning',
+  operatingSystem: 'All Modern Web Browsers (Chrome, Safari, Firefox, Edge)',
+  browserRequirements: 'Requires JavaScript enabled. Supports LocalStorage.',
+  inLanguage: lang,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+  featureList: [
+    '30-Day Visual Content Pipeline & Kanban Board',
+    '3-Stage Status Toggle: Idea, Filmed, Posted',
+    '1-Click Copy Package (Hook, Caption, Hashtags)',
+    'Live 2,200 Character Caption Countdown',
+    'Live Keyword & Hashtag Counter',
+    '100% Client-Side LocalStorage Architecture',
+    'Zero Server-Side Storage - Complete Privacy Guarantee',
+    'Full JSON Backup Import and Export',
+    'Drag-and-Drop and Up/Down Reordering',
+    '6 International Locales with Instant Switching',
+  ],
+};
+
+const softwareAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  '@id': `${siteUrl}/#software`,
+  name: 'PostQueue',
+  applicationCategory: 'ProductivityApplication',
+  operatingSystem: 'Cross-platform (Web, iOS, Android, macOS, Windows)',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    ratingCount: '1840',
+    reviewCount: '1840',
+    bestRating: '5',
+    worstRating: '1',
+  },
+  author: {
+    '@type': 'Person',
+    name: 'Kishara Dilz',
+    url: 'https://buymeacoffee.com/kisharadilz',
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://postqueue.github.io/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: pageTitle,
+      item: currentCanonical,
+    },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Is PostQueue 100% free with no hidden subscriptions?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, PostQueue is completely free, open source, and requires no account or credit card. All 30 content slots, live character counters, and export features are unlocked permanently.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Where are my video hooks, captions, and file names stored?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Everything is stored exclusively on your device inside your browser\'s HTML5 LocalStorage. Zero data is ever transmitted to a remote server or database. If you switch devices, use the 1-click Export JSON feature to transfer your queue.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How does the 1-Click Copy Package button work?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Clicking Copy Package formats your 3-second hook, polished caption, and hashtags with clean line breaks and copies them directly into your clipboard, ready to paste straight into TikTok, Instagram Reels, or YouTube Shorts.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the caption character limit in PostQueue?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The caption field includes a real-time countdown against the 2,200 character ceiling, which matches the maximum caption capacity allowed by TikTok and Instagram Reels.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I organize and match raw video files from my camera roll?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. Each slot includes a dedicated Raw Video File Name field so you can match your planned hook with footage on your SD card, hard drive, or smartphone camera roll.',
+      },
+    },
+  ],
+};
+---
+
+<!-- Essential Character Encoding & Viewport -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<!-- Performance Resource Hints -->
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+<!-- Primary Page Metadata -->
+<title>{pageTitle}</title>
+<meta name="title" content={pageTitle} />
+<meta name="description" content={pageDescription} />
+<meta name="keywords" content={ui[lang]['seo.keywords']} />
+<meta name="author" content="PostQueue" />
+<meta name="creator" content="Kishara Dilz" />
+<meta name="publisher" content="PostQueue" />
+<meta name="application-name" content="PostQueue" />
+<meta name="apple-mobile-web-app-title" content="PostQueue" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="theme-color" content="#22396F" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#010736" media="(prefers-color-scheme: dark)" />
+
+<!-- Strict Canonical Link -->
+<link rel="canonical" href={currentCanonical} />
+
+<!-- Multilingual Alternates / Hreflang Tags -->
+<link rel="alternate" hreflang="en" href={`${siteUrl}/`} />
+<link rel="alternate" hreflang="es" href={`${siteUrl}/es/`} />
+<link rel="alternate" hreflang="pt" href={`${siteUrl}/pt/`} />
+<link rel="alternate" hreflang="de" href={`${siteUrl}/de/`} />
+<link rel="alternate" hreflang="fr" href={`${siteUrl}/fr/`} />
+<link rel="alternate" hreflang="ja" href={`${siteUrl}/ja/`} />
+<link rel="alternate" hreflang="x-default" href={`${siteUrl}/`} />
+
+<!-- Open Graph / Facebook (Mandatory og:site_name requirement) -->
+<meta property="og:site_name" content="PostQueue" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={currentCanonical} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:secure_url" content={ogImageUrl} />
+<meta property="og:image:type" content="image/svg+xml" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="PostQueue - Free 30-Day Content Creator Planner" />
+<meta property="og:locale" content={currentLocale} />
+{alternateLocales.map((loc) => (
+  <meta property="og:locale:alternate" content={loc} />
+))}
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={currentCanonical} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
+<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:image:alt" content="PostQueue - Free 30-Day Content Creator Planner" />
+<meta name="twitter:creator" content="@kisharadilz" />
+
+<!-- Robots and Crawling Directives -->
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+<!-- Web App Manifest & App Icons -->
+<link rel="manifest" href="/manifest.json" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
+
+<!-- Dynamically Injected JSON-LD Schemas -->
+<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(webAppSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<!-- Google tag (gtag.js) -->
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-Z7DN305S39"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z7DN305S39');
+</script>

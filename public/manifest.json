@@ -1,0 +1,17 @@
+{
+  "name": "PostQueue | Free 30-Day Content Creator Planner",
+  "short_name": "PostQueue",
+  "description": "100% client-side, zero-server content planning tool for video creators. Plan video hooks, filenames, captions, and hashtags locally.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#010736",
+  "theme_color": "#22396F",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

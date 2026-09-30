@@ -1,0 +1,31 @@
+---
+import '../styles/global.css';
+import SEOHead from '../components/SEOHead.astro';
+import ThemeScript from '../components/ThemeScript.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import type { SupportedLanguage } from '../i18n/ui';
+
+interface Props {
+  lang: SupportedLanguage;
+  title?: string;
+  description?: string;
+}
+
+const { lang, title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang} dir="ltr" class="scroll-smooth">
+  <head>
+    <ThemeScript />
+    <SEOHead lang={lang} title={title} description={description} />
+  </head>
+  <body class="min-h-screen bg-[#fcfaf5] text-[#010736] transition-colors duration-200 dark:bg-[#010736] dark:text-[#FCF1D0] flex flex-col font-sans selection:bg-[#22396F]/20 selection:text-[#010736] dark:selection:bg-[#FCF1D0]/30 dark:selection:text-[#FCF1D0]">
+    <Header currentLang={lang} />
+    <main class="flex-1 w-full" id="main-content">
+      <slot />
+    </main>
+    <Footer currentLang={lang} />
+  </body>
+</html>

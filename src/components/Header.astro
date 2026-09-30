@@ -1,0 +1,198 @@
+---
+import { languages, ui, type SupportedLanguage } from '../i18n/ui';
+
+interface Props {
+  currentLang: SupportedLanguage;
+}
+
+const { currentLang } = Astro.props;
+const t = (key: keyof typeof ui['en']) => ui[currentLang]?.[key] ?? ui['en'][key];
+const currentLanguageInfo = languages[currentLang] || languages.en;
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-[#22396F]/20 bg-[#fcfaf5]/90 backdrop-blur-md transition-colors duration-200 dark:border-[#22396F]/70 dark:bg-[#0D1C42]/90">
+  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-3 sm:px-6 lg:px-8">
+    
+    <!-- Logo & Brand (Clean & simple on mobile/tab) -->
+    <a href={currentLang === 'en' ? '/' : `/${currentLang}/`} class="group flex items-center gap-2.5 sm:gap-3 transition-transform active:scale-95" aria-label="PostQueue Home">
+      <div class="relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-[#22396F] text-[#FCF1D0] shadow-md shadow-[#010736]/20 transition-all duration-200 group-hover:scale-105 dark:bg-[#22396F] dark:text-[#FCF1D0] dark:shadow-[#010736]/60">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          <line x1="19" y1="5" x2="19" y2="19"></line>
+        </svg>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-base sm:text-lg font-black tracking-tight text-[#010736] transition-colors dark:text-[#FCF1D0]">
+          Post<span class="text-[#22396F] dark:text-white">Queue</span>
+        </span>
+        <span class="hidden lg:block text-[10px] font-bold uppercase tracking-wider text-[#22396F]/80 dark:text-[#FCF1D0]/70">
+          30-Day Creator Engine
+        </span>
+      </div>
+    </a>
+
+    <!-- Action Bar: Mobile and Tablet Navigation uses icons only for clean responsiveness -->
+    <div class="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
+      
+      <!-- Language Selector Dropdown (Icon only on mobile & tablet) -->
+      <div class="relative" id="lang-menu-container">
+        <button
+          type="button"
+          id="lang-menu-button"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="flex h-9 items-center justify-center gap-1.5 rounded-xl border border-[#22396F]/20 bg-white/80 px-2 sm:px-2.5 text-xs font-semibold text-[#010736] shadow-xs transition hover:bg-slate-50 dark:border-[#22396F] dark:bg-[#010736]/90 dark:text-[#FCF1D0] dark:hover:bg-[#22396F]/40 lg:px-3"
+          aria-label={`Select Language (Current: ${currentLanguageInfo.name})`}
+          title={`Language: ${currentLanguageInfo.name}`}
+        >
+          <span class="text-base leading-none" role="img" aria-hidden="true">{currentLanguageInfo.flag}</span>
+          <span class="hidden lg:inline text-xs font-medium">{currentLanguageInfo.name}</span>
+          <svg class="hidden lg:block h-3.5 w-3.5 text-[#22396F] dark:text-[#FCF1D0]/70 transition-transform duration-200" id="lang-chevron" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+
+        <div
+          id="lang-dropdown"
+          class="absolute right-0 mt-2 hidden w-44 origin-top-right rounded-2xl border border-[#22396F]/30 bg-white p-1.5 shadow-2xl ring-1 ring-black/5 backdrop-blur-xl focus:outline-none dark:border-[#22396F] dark:bg-[#0D1C42] dark:ring-white/10"
+          role="menu"
+        >
+          {Object.entries(languages).map(([code, item]) => {
+            const targetHref = code === 'en' ? '/' : `/${code}/`;
+            const isActive = code === currentLang;
+            return (
+              <a
+                href={targetHref}
+                role="menuitem"
+                class={`flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition ${
+                  isActive
+                    ? 'bg-[#22396F] font-bold text-[#FCF1D0]'
+                    : 'text-[#010736] hover:bg-[#FCF1D0]/40 dark:text-[#FCF1D0] dark:hover:bg-[#22396F]/40'
+                }`}
+              >
+                <span class="flex items-center gap-2">
+                  <span class="text-base">{item.flag}</span>
+                  <span>{item.name}</span>
+                </span>
+                {isActive && (
+                  <svg class="h-3.5 w-3.5 text-[#FCF1D0]" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                )}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Theme Switcher Button (Clean Icon-only) -->
+      <button
+        type="button"
+        id="theme-toggle-btn"
+        class="flex h-9 w-9 items-center justify-center rounded-xl border border-[#22396F]/20 bg-white/80 text-[#010736] shadow-xs transition hover:bg-slate-50 active:scale-95 dark:border-[#22396F] dark:bg-[#010736]/90 dark:text-[#FCF1D0] dark:hover:bg-[#22396F]/40"
+        aria-label="Toggle Theme"
+        title="Toggle Light/Dark Theme"
+      >
+        <!-- Sun Icon (shown in dark mode) -->
+        <svg id="theme-sun-icon" class="hidden h-4 w-4 text-[#FCF1D0] transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon Icon (shown in light mode) -->
+        <svg id="theme-moon-icon" class="h-4 w-4 text-[#010736] transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <!-- Prominent "Support the Developer" CTA -->
+      <!-- Simple icon-only on mobile & tablet for responsiveness, full CTA on desktop -->
+      <a
+        href="https://buymeacoffee.com/kisharadilz"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex h-9 items-center justify-center gap-2 rounded-xl bg-[#22396F] px-2.5 sm:px-3 text-xs font-bold text-[#FCF1D0] shadow-sm shadow-[#010736]/20 transition-all duration-200 hover:bg-[#0D1C42] active:scale-95 dark:bg-[#FCF1D0] dark:text-[#010736] dark:hover:bg-white lg:px-4"
+        aria-label="Support the Developer on BuyMeACoffee"
+        title="Support the Developer (Buy Me a Coffee)"
+      >
+        <svg class="h-4 w-4 shrink-0 fill-current" viewBox="0 0 24 24">
+          <path d="M20.216 6.415l-.132-.666c-.119-.597-.384-1.155-.774-1.625-.429-.516-.99-.894-1.624-1.094-.648-.204-1.332-.218-1.986-.041l-11.83 3.167c-.655.176-1.229.563-1.657 1.118-.429.555-.662 1.233-.67 1.944-.008.711.209 1.401.622 1.982.413.58 1.002.992 1.693 1.182l.854.234c.164 1.77.893 3.428 2.083 4.743 1.19 1.315 2.766 2.195 4.508 2.518l.245.918c-.802.164-1.554.516-2.185 1.022-.631.506-1.114 1.158-1.404 1.895-.29.737-.384 1.542-.272 2.338.112.796.442 1.543.957 2.169.515.626 1.185 1.098 1.945 1.371.76.273 1.58.344 2.38.206.8-.138 1.547-.492 2.169-.1026l.487-.417c.606-.519 1.055-1.189 1.306-1.946.251-.757.295-1.572.128-2.368-.167-.796-.549-1.529-1.109-2.127-.56-.598-1.267-1.037-2.053-1.274l-.248-.929c1.692-.416 3.201-1.373 4.316-2.737 1.115-1.364 1.76-3.076 1.846-4.897l.794-.213c.691-.186 1.282-.596 1.697-1.174.415-.578.635-1.267.63-1.977-.005-.71-.233-1.391-.653-1.951-.42-.56-.99-1.024-1.634-1.33zm-4.707 6.136c-.083 1.637-.732 3.178-1.84 4.372-1.108 1.194-2.587 1.96-4.195 2.174l-2.073-7.734 8.108-2.173v3.361zm2.348-2.795l-.766.205-.632-2.359.766-.205c.29-.078.595-.072.882.018.287.09.539.26.73.493.19.232.308.513.342.812.034.299-.015.602-.142.875-.127.273-.335.5-.599.654-.264.154-.567.227-.881.207z"/>
+        </svg>
+        <span class="hidden lg:inline">{t('nav.supportShort')}</span>
+      </a>
+
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    // --- Language Dropdown Toggle ---
+    const langButton = document.getElementById('lang-menu-button');
+    const langDropdown = document.getElementById('lang-dropdown');
+    const langChevron = document.getElementById('lang-chevron');
+
+    if (langButton && langDropdown) {
+      langButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = !langDropdown.classList.contains('hidden');
+        if (isOpen) {
+          langDropdown.classList.add('hidden');
+          langButton.setAttribute('aria-expanded', 'false');
+          langChevron?.classList.remove('rotate-180');
+        } else {
+          langDropdown.classList.remove('hidden');
+          langButton.setAttribute('aria-expanded', 'true');
+          langChevron?.classList.add('rotate-180');
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!langDropdown.contains(e.target) && !langButton.contains(e.target)) {
+          langDropdown.classList.add('hidden');
+          langButton.setAttribute('aria-expanded', 'false');
+          langChevron?.classList.remove('rotate-180');
+        }
+      });
+    }
+
+    // --- Theme Switcher ---
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const sunIcon = document.getElementById('theme-sun-icon');
+    const moonIcon = document.getElementById('theme-moon-icon');
+
+    function syncThemeIcons() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        sunIcon?.classList.remove('hidden');
+        moonIcon?.classList.add('hidden');
+      } else {
+        sunIcon?.classList.add('hidden');
+        moonIcon?.classList.remove('hidden');
+      }
+    }
+
+    // Sync on page load
+    syncThemeIcons();
+
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.contains('dark');
+        if (isDark) {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('postqueue-theme', 'light');
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('postqueue-theme', 'dark');
+        }
+        syncThemeIcons();
+      });
+    }
+  })();
+</script>

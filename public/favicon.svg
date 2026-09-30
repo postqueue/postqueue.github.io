@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="pq-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22396F" />
+      <stop offset="50%" stop-color="#0D1C42" />
+      <stop offset="100%" stop-color="#010736" />
+    </linearGradient>
+    <filter id="pq-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#010736" flood-opacity="0.5" />
+    </filter>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#pq-grad)" stroke="#22396F" stroke-width="2" filter="url(#pq-shadow)" />
+  <g fill="#FCF1D0">
+    <!-- Play Triangle -->
+    <polygon points="38,32 78,64 38,96" />
+    <!-- Queue Line 1 -->
+    <rect x="84" y="34" width="8" height="60" rx="4" />
+    <!-- Accent Dot -->
+    <circle cx="98" cy="64" r="5" fill="#FCF1D0" />
+  </g>
+</svg>
