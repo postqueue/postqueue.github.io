@@ -3,7 +3,7 @@
 > **Free 30-Day Content Creator Planner**  
 > A 100% client-side, zero-server content planning tool built with **Astro**, **React Islands**, and **Tailwind CSS**.  
 > **Live Site:** [https://postqueue.github.io](https://postqueue.github.io)  
-> **Support the Developer:** [buymeacoffee.com/kisharadilz](https://buymeacoffee.com/kisharadilz)
+> **Support the Developer:** [ko-fi.com/kishara](https://ko-fi.com/kishara)
 
 ---
 
@@ -139,7 +139,7 @@ postqueue.github.io/
 
 If you find PostQueue useful for your content workflow, consider supporting its maintenance:
 
-👉 [**Buy Me a Coffee (Kishara Dilz)**](https://buymeacoffee.com/kisharadilz)
+👉 [**Support on Ko-fi (Kishara)**](https://ko-fi.com/kishara)
 
 ---
 
